@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/enclose.dir/src/main.cpp.o CMakeFiles/enclose.dir/src/reader.cpp.o CMakeFiles/enclose.dir/src/solver.cpp.o CMakeFiles/enclose.dir/src/writer.cpp.o -o enclose 

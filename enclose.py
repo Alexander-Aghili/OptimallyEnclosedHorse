@@ -15,10 +15,12 @@ WALL = 5
 BASE_URL = "https://enclose.horse"
 _UA = {"User-Agent": "Mozilla/5.0 (enclose-solver)"}
 
+
 def _get(url):
     req = urllib.request.Request(url, headers=_UA)
     with urllib.request.urlopen(req, timeout=30) as r:
         return r.read().decode("utf-8", "replace")
+
 
 def fetch_level(level_id):
     """Fetch a single level and return its raw dict (map string, budget, ...)."""
@@ -28,6 +30,7 @@ def fetch_level(level_id):
         raise RuntimeError(f"could not find __LEVEL__ for {level_id}")
     return json.loads(m.group(1))
 
+
 def fetch_daily_levels():
     """Return the list of daily puzzles (id, dayNumber, optimalScore, ...)."""
     html = _get(f"{BASE_URL}/play/E03KkY")
@@ -36,7 +39,9 @@ def fetch_daily_levels():
         raise RuntimeError("could not find __DAILY_LEVELS__")
     return json.loads(m.group(1))
 
+
 def parse_map(map_str):
+    print(map_str)
     """Text grid -> (numpy terrain array, set of cherry (i,j), horse (i,j)).
 
     Cherries are passable field tiles, so they become FIELD in the terrain
@@ -65,6 +70,7 @@ def parse_map(map_str):
     if horse is None:
         raise RuntimeError("no horse ('H') found in map")
     return grid, cherries, horse
+
 
 def solve_map(grid, max_walls):
     """Place <= max_walls walls to minimize the number of escapable tiles.
@@ -127,6 +133,7 @@ def solve_map(grid, max_walls):
     walls = np.round(sol.x[W_varnums]).astype(int)
     return walls, int(round(sol.fun)), dt
 
+
 def game_score(grid, cherries, horse, walls):
     """Replicate enclose.horse scoring: flood-fill the horse's reachable region.
 
@@ -157,6 +164,7 @@ def game_score(grid, cherries, horse, walls):
     score = area + 3 * sum(1 for t in cherries if t in seen)
     return score, False, area
 
+
 def run_first_n(n):
     dailies = fetch_daily_levels()
     dailies = sorted(dailies, key=lambda d: d["dayNumber"])[:n]
@@ -177,6 +185,7 @@ def run_first_n(n):
             f"{d['dayNumber']:>3}  {d['name'][:22]:<22} {lvl['budget']:>5} "
             f"{dt:>9.3f} {obj:>6} {score:>6} {opt:>7}  {ok}"
         )
+
 
 if __name__ == "__main__":
     import sys
