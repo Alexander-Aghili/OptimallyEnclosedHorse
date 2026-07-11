@@ -1,3 +1,0 @@
-/home/alexsky2/Projects/OptimalEncloseHorse/build/CMakeFiles/enclose.dir
-/home/alexsky2/Projects/OptimalEncloseHorse/build/CMakeFiles/edit_cache.dir
-/home/alexsky2/Projects/OptimalEncloseHorse/build/CMakeFiles/rebuild_cache.dir
