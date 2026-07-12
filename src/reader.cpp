@@ -25,7 +25,12 @@ Game read_map(const char *filename) {
   return read_map_from_string(read_file(filename).c_str());
 }
 
-Game read_map_from_string(const char *map_str) {
+Game read_map_from_string(const char *input) {
+  // first line is the wall budget; the map grid follows on the next line
+  int budget = atoi(input);
+  const char *newline = strchr(input, '\n');
+  const char *map_str = newline ? newline + 1 : input;
+
   // find out the dimensions of the map
   int rows = 0;
   int cols = 0;
@@ -54,8 +59,7 @@ Game read_map_from_string(const char *map_str) {
   std::vector<Position> *portals = new std::vector<Position>();
 
   // parse the map
-  int i = 0;
-  int j = 0;
+  int horse = -1; // flat index (i * cols + j) of the horse tile
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       char ch = map_str[i * cols + j];
@@ -68,6 +72,7 @@ Game read_map_from_string(const char *map_str) {
         break;
       case 'H':
         grid[i][j] = HORSE;
+        horse = i * cols + j;
         break;
       case 'C':
         cherries->push_back(Position{i, j});
@@ -79,5 +84,5 @@ Game read_map_from_string(const char *map_str) {
     }
   }
 
-  return Game{grid, rows, cols, cherries, bees, portals};
+  return Game{grid, rows, cols, budget, horse, cherries, bees, portals};
 }

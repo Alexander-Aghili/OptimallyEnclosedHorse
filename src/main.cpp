@@ -27,5 +27,13 @@ int main(int argc, char **argv) {
               << std::endl;
   }
 
+  Solution sol = solve(&game);
+
+  for (int i = 0; i < sol.x.size(); i++) {
+    std::cout << sol.x[i] << " ";
+  }
+  std::cout << std::endl;
+  std::cout << sol.objective << std::endl;
+
   return 0;
 }

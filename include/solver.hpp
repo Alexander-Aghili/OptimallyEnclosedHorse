@@ -15,10 +15,17 @@ typedef struct {
   int **grid;
   int rows;
   int columns;
+  int budget;
+  int horse;
   std::vector<Position> *cherries;
   std::vector<Position> *bees;
   std::vector<Position> *portals;
 } Game;
 
-void solve(Game *game);
+typedef struct {
+  std::vector<double> x;
+  double objective;
+} Solution;
+
+Solution solve(Game *game);
 
