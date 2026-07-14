@@ -33,12 +33,14 @@ Game read_map_from_string(const char *input) {
 
   // find out the dimensions of the map
   int rows = 0;
-  int cols = 0;
+  int cols = 0;    // map width, excluding the newline terminator
+  int stride = 0;  // chars per line in the raw buffer, including '\n'
 
   int map_str_size = strlen(map_str);
   for (int i = 0; i < map_str_size; i++) {
     if (map_str[i] == '\n') {
-      cols = i + 1;
+      cols = i;         // characters before the first newline
+      stride = i + 1;   // step over the newline when indexing the buffer
       break;
     }
   }
@@ -62,7 +64,7 @@ Game read_map_from_string(const char *input) {
   int horse = -1; // flat index (i * cols + j) of the horse tile
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
-      char ch = map_str[i * cols + j];
+      char ch = map_str[i * stride + j];
       switch (ch) {
       case '~':
         grid[i][j] = WATER;

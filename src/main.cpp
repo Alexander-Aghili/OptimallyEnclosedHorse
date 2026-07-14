@@ -34,6 +34,7 @@ int main(int argc, char **argv) {
   }
   std::cout << std::endl;
   std::cout << sol.objective << std::endl;
+  std::cout << game_score(&game, sol) << std::endl;
 
   return 0;
 }
