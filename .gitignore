@@ -1,3 +1,17 @@
+# Python
 __pycache__/
 *.pyc
+
+# Virtualenvs
+.venv*/
+venv/
+
+# C++ build
 build/
+
+# Manim render output
+media/
+*.mp4
+
+# Solver output
+solutions/
